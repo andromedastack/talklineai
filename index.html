@@ -33,7 +33,7 @@
   a { color: inherit; }
   :focus-visible { outline: 3px solid var(--lamp); outline-offset: 3px; border-radius: 4px; }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
- 
+
   /* Header */
   header.top { padding: 22px 0; }
   header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -52,7 +52,7 @@
   .btn.ghost:hover { background: var(--ink); color: var(--paper); }
   nav.links .btn { color: var(--paper); }
   nav.links .btn:hover { color: var(--ink); }
- 
+
   /* Hero */
   .hero { padding: 48px 0 88px; }
   .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
@@ -62,7 +62,7 @@
   }
   .hero p.lede { font-size: 21px; color: var(--slate); max-width: 34ch; margin: 0 0 32px; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
- 
+
   /* The call card: the one memorable thing */
   .call {
     background: var(--ink); color: var(--paper); border-radius: 28px; padding: 26px 26px 30px;
@@ -89,37 +89,37 @@
   }
   .summary.show { opacity: 1; }
   .summary b { display: block; font-size: 14px; margin-bottom: 2px; }
- 
+
   /* Sections */
   section { padding: 88px 0; }
   h2 { font-size: clamp(32px, 4vw, 48px); letter-spacing: -0.03em; line-height: 1.05; margin: 0 0 18px; font-weight: 800; }
   .intro { color: var(--slate); font-size: 20px; max-width: 52ch; margin: 0 0 48px; }
- 
+
   /* Missed-call problem band */
   .band { background: var(--ink); color: var(--paper); }
   .band .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
   .band p { color: #C6CFDD; font-size: 20px; margin: 0; max-width: 46ch; }
- 
+
   /* How it works: a real sequence, so numbers earn their place */
   .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; counter-reset: s; }
   .steps li { counter-increment: s; border-top: 3px solid var(--ink); padding-top: 22px; }
   .steps li::before { content: counter(s); display: block; font-size: 56px; font-weight: 800; line-height: 1; color: var(--lamp); margin-bottom: 14px; letter-spacing: -0.04em; }
   .steps h3 { font-size: 22px; margin: 0 0 8px; letter-spacing: -0.01em; }
   .steps p { margin: 0; color: var(--slate); }
- 
+
   /* What it handles */
   .handles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 56px; }
   .handle { padding: 24px 0; border-bottom: 1px solid var(--mist); display: grid; grid-template-columns: 28px 1fr; gap: 16px; }
   .handle svg { width: 28px; height: 28px; color: var(--line); margin-top: 2px; }
   .handle h3 { margin: 0 0 4px; font-size: 20px; }
   .handle p { margin: 0; color: var(--slate); font-size: 17px; }
- 
+
   /* Who it's for */
   .who { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
   .who span { border: 2px solid var(--ink); border-radius: 999px; padding: 10px 18px; font-weight: 600; font-size: 17px; }
- 
- 
- 
+
+
+
   /* Integrations */
   .fit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 40px; }
   .fit div { padding: 22px 0; border-top: 2px solid var(--ink); }
@@ -131,7 +131,7 @@
   .after ul { margin: 0; padding-left: 20px; color: #C6CFDD; }
   .after li { margin: 6px 0; }
   @media (max-width: 900px) { .fit { grid-template-columns: 1fr; } .after { grid-template-columns: 1fr; padding: 24px; } }
- 
+
   /* Demo call CTA */
   .callbtn { display: inline-flex; align-items: center; gap: 10px; }
   .callbtn svg { width: 18px; height: 18px; }
@@ -148,7 +148,7 @@
     .mobilebar { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 10; justify-content: center; background: var(--ink); color: var(--paper); border-radius: 999px; padding: 15px 20px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 20px rgba(20,33,61,.25); }
     body { padding-bottom: 76px; }
   }
- 
+
   /* Plans */
   .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .plan { border: 2px solid var(--ink); border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 14px; background: var(--paper); }
@@ -167,7 +167,7 @@
   .compare dt:last-of-type { color: var(--line); }
   .compare dd { margin: 4px 0 0; color: var(--slate); padding-bottom: 18px; border-bottom: 1px solid var(--mist); }
   @media (max-width: 900px) { .offer { grid-template-columns: 1fr; } }
- 
+
   /* Early access / CTA */
   .cta { background: var(--lamp); }
   .cta .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
@@ -180,7 +180,7 @@
   form.signup button { font: inherit; font-weight: 600; cursor: pointer; padding: 15px 22px; border-radius: 999px; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); }
   form.signup button:hover { background: transparent; color: var(--ink); }
   .fine { font-size: 14px; color: var(--ink); opacity: .75; }
- 
+
   /* FAQ */
   .faq { max-width: 780px; }
   details { border-bottom: 1px solid var(--mist); padding: 20px 0; }
@@ -189,11 +189,11 @@
   summary::after { content: "+"; font-size: 26px; line-height: 1; color: var(--slate); transition: transform .2s; }
   details[open] summary::after { transform: rotate(45deg); }
   details p { color: var(--slate); margin: 12px 0 0; max-width: 62ch; }
- 
+
   footer { padding: 40px 0 56px; color: var(--slate); font-size: 15px; border-top: 1px solid var(--mist); }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
   footer a { color: var(--slate); }
- 
+
   /* Responsive */
   @media (max-width: 900px) {
     .hero .wrap, .band .wrap, .cta .wrap { grid-template-columns: 1fr; gap: 40px; }
@@ -216,7 +216,7 @@
 </style>
 </head>
 <body>
- 
+
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#" aria-label="TalklineAI home">
@@ -233,7 +233,7 @@
     </nav>
   </div>
 </header>
- 
+
 <main>
   <section class="hero" aria-labelledby="hero-title" style="padding-top:48px">
     <div class="wrap">
@@ -246,7 +246,7 @@
         </div>
         <p class="demo-note">Talk to it like a customer would. Ask it anything. It can book you a quick call with our team.</p>
       </div>
- 
+
       <div class="call ringing" id="call" aria-label="Example call handled by TalklineAI">
         <div class="call-head">
           <div class="clock">Tuesday night<strong>2:47 AM</strong></div>
@@ -264,14 +264,14 @@
       </div>
     </div>
   </section>
- 
+
   <section class="band" aria-labelledby="problem-title">
     <div class="wrap">
       <h2 id="problem-title">A missed call is usually a missed customer.</h2>
       <p>When a caller hits voicemail, most of them don't leave a message. They call the next business on the list. TalklineAI makes sure someone always answers, whether you're on a job site, with a client, or asleep.</p>
     </div>
   </section>
- 
+
   <section id="how" aria-labelledby="how-title">
     <div class="wrap">
       <h2 id="how-title">Set up in an afternoon</h2>
@@ -283,7 +283,7 @@
       </ol>
     </div>
   </section>
- 
+
   <section id="features" aria-labelledby="features-title" style="padding-top:0">
     <div class="wrap">
       <h2 id="features-title">What it handles</h2>
@@ -316,7 +316,7 @@
       </div>
     </div>
   </section>
- 
+
   <section id="integrations" aria-labelledby="int-title" style="padding-top:0">
     <div class="wrap">
       <h2 id="int-title">Fits the way you already work</h2>
@@ -341,7 +341,7 @@
       </div>
     </div>
   </section>
- 
+
   <section aria-labelledby="who-title" style="padding-top:0">
     <div class="wrap">
       <h2 id="who-title">Built for businesses that live on the phone</h2>
@@ -351,7 +351,7 @@
       </div>
     </div>
   </section>
- 
+
   <section id="pricing" aria-labelledby="pricing-title" style="padding-top:0">
     <div class="wrap">
       <h2 id="pricing-title">One plan. Everything included.</h2>
@@ -387,7 +387,7 @@
       </div>
     </div>
   </section>
- 
+
   <section class="cta" id="early-access" aria-labelledby="cta-title">
     <div class="wrap">
       <div>
@@ -422,7 +422,7 @@
       </div>
     </div>
   </section>
- 
+
   <section id="faq" aria-labelledby="faq-title">
     <div class="wrap">
       <h2 id="faq-title">Questions</h2>
@@ -439,19 +439,19 @@
     </div>
   </section>
 </main>
- 
+
 <footer>
   <div class="wrap">
     <span>&copy; <span id="yr">2026</span> TalklineAI, an AndromedaStack company. Leduc, Alberta.</span>
     <span><a href="tel:+18254790614">(825) 479-0614</a> &nbsp;&nbsp; <a href="mailto:hello@talklineai.com">hello@talklineai.com</a></span>
   </div>
 </footer>
- 
+
 <a class="mobilebar" href="tel:+18254790614">Call our AI: (825) 479-0614</a>
- 
+
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
- 
+
   // One orchestrated moment: the call rings, is answered, and plays out once.
   (function () {
     const call = document.getElementById('call');
@@ -459,7 +459,7 @@
     const msgs = Array.from(document.querySelectorAll('#lines .msg'));
     const summary = document.getElementById('summary');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- 
+
     function answer() {
       call.classList.remove('ringing');
       call.classList.add('answered');
