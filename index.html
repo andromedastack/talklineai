@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TalklineAI | Your phone, answered 24/7</title>
+<meta name="description" content="TalklineAI answers your business phone day and night, takes messages, books appointments and texts you a summary, so you never miss a customer.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314213D'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23F2A93B'/%3E%3Cpath d='M14 32a18 18 0 0 1 36 0' stroke='%23F7F8FB' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14213D;      /* night navy: text, dark panels */
+    --paper: #F7F8FB;    /* cool daylight background */
+    --mist: #DCE3EC;     /* borders, quiet fills */
+    --slate: #4A5670;    /* secondary text */
+    --lamp: #F2A93B;     /* the "line is live" indicator */
+    --line: #2E8B7A;     /* answered / success */
+    --max: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Schibsted Grotesk", system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--lamp); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header.top { padding: 22px 0; }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; text-decoration: none; letter-spacing: -0.01em; }
+  .logo svg { width: 30px; height: 30px; }
+  nav.links { display: flex; gap: 28px; align-items: center; font-size: 16px; }
+  nav.links a { text-decoration: none; color: var(--slate); }
+  nav.links a:hover { color: var(--ink); }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 600; font-size: 16px;
+    padding: 13px 22px; border-radius: 999px; border: 2px solid var(--ink);
+    background: var(--ink); color: var(--paper); transition: background .15s, color .15s;
+  }
+  .btn:hover { background: transparent; color: var(--ink); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--paper); }
+  nav.links .btn { color: var(--paper); }
+  nav.links .btn:hover { color: var(--ink); }
+
+  /* Hero */
+  .hero { padding: 48px 0 88px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+  .hero h1 {
+    font-size: clamp(44px, 6.4vw, 80px); line-height: 0.98; letter-spacing: -0.035em;
+    font-weight: 800; margin: 0 0 24px;
+  }
+  .hero p.lede { font-size: 21px; color: var(--slate); max-width: 34ch; margin: 0 0 32px; }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* The call card: the one memorable thing */
+  .call {
+    background: var(--ink); color: var(--paper); border-radius: 28px; padding: 26px 26px 30px;
+    position: relative; overflow: hidden;
+  }
+  .call-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+  .clock { font-size: 15px; color: #AEB9CC; }
+  .clock strong { color: var(--paper); font-size: 30px; font-weight: 700; letter-spacing: -0.02em; display: block; line-height: 1; margin-top: 4px; }
+  .status { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--lamp); box-shadow: 0 0 0 0 rgba(242,169,59,.7); }
+  .ringing .dot { animation: ring 1.1s ease-out infinite; }
+  .answered .dot { background: var(--line); animation: none; }
+  @keyframes ring { 0% { box-shadow: 0 0 0 0 rgba(242,169,59,.7);} 100% { box-shadow: 0 0 0 14px rgba(242,169,59,0);} }
+  .caller { font-size: 15px; color: #AEB9CC; margin-bottom: 18px; }
+  .caller b { color: var(--paper); font-weight: 600; }
+  .lines { display: flex; flex-direction: column; gap: 10px; min-height: 290px; }
+  .msg { max-width: 86%; padding: 11px 15px; border-radius: 18px; font-size: 16px; line-height: 1.4; opacity: 0; transform: translateY(6px); transition: opacity .35s, transform .35s; }
+  .msg.show { opacity: 1; transform: none; }
+  .msg.ai { background: #22335A; border-bottom-left-radius: 6px; }
+  .msg.them { background: var(--paper); color: var(--ink); align-self: flex-end; border-bottom-right-radius: 6px; }
+  .summary {
+    margin-top: 18px; background: var(--lamp); color: var(--ink); border-radius: 16px; padding: 14px 16px;
+    font-size: 15px; line-height: 1.4; opacity: 0; transition: opacity .4s;
+  }
+  .summary.show { opacity: 1; }
+  .summary b { display: block; font-size: 14px; margin-bottom: 2px; }
+
+  /* Sections */
+  section { padding: 88px 0; }
+  h2 { font-size: clamp(32px, 4vw, 48px); letter-spacing: -0.03em; line-height: 1.05; margin: 0 0 18px; font-weight: 800; }
+  .intro { color: var(--slate); font-size: 20px; max-width: 52ch; margin: 0 0 48px; }
+
+  /* Missed-call problem band */
+  .band { background: var(--ink); color: var(--paper); }
+  .band .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .band p { color: #C6CFDD; font-size: 20px; margin: 0; max-width: 46ch; }
+
+  /* How it works: a real sequence, so numbers earn their place */
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; counter-reset: s; }
+  .steps li { counter-increment: s; border-top: 3px solid var(--ink); padding-top: 22px; }
+  .steps li::before { content: counter(s); display: block; font-size: 56px; font-weight: 800; line-height: 1; color: var(--lamp); margin-bottom: 14px; letter-spacing: -0.04em; }
+  .steps h3 { font-size: 22px; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .steps p { margin: 0; color: var(--slate); }
+
+  /* What it handles */
+  .handles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 56px; }
+  .handle { padding: 24px 0; border-bottom: 1px solid var(--mist); display: grid; grid-template-columns: 28px 1fr; gap: 16px; }
+  .handle svg { width: 28px; height: 28px; color: var(--line); margin-top: 2px; }
+  .handle h3 { margin: 0 0 4px; font-size: 20px; }
+  .handle p { margin: 0; color: var(--slate); font-size: 17px; }
+
+  /* Who it's for */
+  .who { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .who span { border: 2px solid var(--ink); border-radius: 999px; padding: 10px 18px; font-weight: 600; font-size: 17px; }
+
+
+
+  /* Integrations */
+  .fit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 40px; }
+  .fit div { padding: 22px 0; border-top: 2px solid var(--ink); }
+  .fit h3 { margin: 0 0 6px; font-size: 19px; }
+  .fit p { margin: 0 0 8px; color: var(--slate); font-size: 17px; }
+  .fit .apps { font-size: 15px; color: var(--ink); opacity: .7; margin: 0; }
+  .after { margin-top: 56px; background: var(--ink); color: var(--paper); border-radius: 24px; padding: 32px; display: grid; grid-template-columns: 1fr 2fr; gap: 32px; }
+  .after h3 { margin: 0; font-size: 26px; letter-spacing: -0.02em; line-height: 1.15; }
+  .after ul { margin: 0; padding-left: 20px; color: #C6CFDD; }
+  .after li { margin: 6px 0; }
+  @media (max-width: 900px) { .fit { grid-template-columns: 1fr; } .after { grid-template-columns: 1fr; padding: 24px; } }
+
+  /* Plans */
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .plan { border: 2px solid var(--ink); border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 14px; background: var(--paper); }
+  .plan.pick { background: var(--ink); color: var(--paper); }
+  .plan h3 { margin: 0; font-size: 22px; }
+  .price { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .price small { font-size: 16px; font-weight: 500; letter-spacing: 0; opacity: .75; }
+  .plan ul { margin: 0; padding-left: 20px; flex: 1; }
+  .plan li { margin: 6px 0; }
+  .plan.pick .btn { background: var(--lamp); border-color: var(--lamp); color: var(--ink); }
+  .plan.pick .btn:hover { background: transparent; color: var(--lamp); }
+  .offer { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .compare h3 { margin: 0 0 12px; font-size: 22px; }
+  .compare dl { margin: 0 0 16px; }
+  .compare dt { font-weight: 700; margin-top: 18px; }
+  .compare dt:last-of-type { color: var(--line); }
+  .compare dd { margin: 4px 0 0; color: var(--slate); padding-bottom: 18px; border-bottom: 1px solid var(--mist); }
+  @media (max-width: 900px) { .offer { grid-template-columns: 1fr; } }
+
+  /* Early access / CTA */
+  .cta { background: var(--lamp); }
+  .cta .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+  .cta p { font-size: 20px; margin: 0; max-width: 40ch; }
+  form.signup { display: flex; flex-direction: column; gap: 12px; }
+  form.signup label { font-weight: 600; font-size: 16px; }
+  form.signup input {
+    font: inherit; padding: 14px 16px; border-radius: 14px; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); width: 100%;
+  }
+  form.signup button { font: inherit; font-weight: 600; cursor: pointer; padding: 15px 22px; border-radius: 999px; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); }
+  form.signup button:hover { background: transparent; color: var(--ink); }
+  .fine { font-size: 14px; color: var(--ink); opacity: .75; }
+
+  /* FAQ */
+  .faq { max-width: 780px; }
+  details { border-bottom: 1px solid var(--mist); padding: 20px 0; }
+  summary { cursor: pointer; font-weight: 600; font-size: 20px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 26px; line-height: 1; color: var(--slate); transition: transform .2s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: var(--slate); margin: 12px 0 0; max-width: 62ch; }
+
+  footer { padding: 40px 0 56px; color: var(--slate); font-size: 15px; border-top: 1px solid var(--mist); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+  footer a { color: var(--slate); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero .wrap, .band .wrap, .cta .wrap { grid-template-columns: 1fr; gap: 40px; }
+    .steps { grid-template-columns: 1fr; gap: 32px; }
+    .handles { grid-template-columns: 1fr; }
+    nav.links a:not(.btn) { display: none; }
+    section { padding: 64px 0; }
+  }
+  @media (max-width: 480px) {
+    .wrap { padding: 0 16px; }
+    body { font-size: 17px; }
+    .call { padding: 20px 18px 24px; border-radius: 22px; }
+    .msg { font-size: 15px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .msg, .summary { transition: none; }
+    .ringing .dot { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="TalklineAI home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#14213D"/><circle cx="32" cy="32" r="9" fill="#F2A93B"/><path d="M14 32a18 18 0 0 1 36 0" stroke="#F7F8FB" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+      TalklineAI
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#features">What it handles</a>
+      <a href="#integrations">Integrations</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn" href="#early-access">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title" style="padding-top:48px">
+    <div class="wrap">
+      <div>
+        <h1 id="hero-title">Every call answered. Even at 2&nbsp;a.m.</h1>
+        <p class="lede">TalklineAI picks up when you can't, books the job, and texts you a summary before you've finished your coffee.</p>
+        <div class="actions">
+          <a class="btn" href="#pricing">See pricing</a>
+          <a class="btn ghost" href="#how">See how it works</a>
+        </div>
+      </div>
+
+      <div class="call ringing" id="call" aria-label="Example call handled by TalklineAI">
+        <div class="call-head">
+          <div class="clock">Tuesday night<strong>2:47 AM</strong></div>
+          <div class="status"><span class="dot"></span><span id="status-text">Incoming call</span></div>
+        </div>
+        <div class="caller">Calling <b>Northside Plumbing</b></div>
+        <div class="lines" id="lines">
+          <div class="msg ai">Hi, you've reached Northside Plumbing. How can I help?</div>
+          <div class="msg them">My basement's flooding. Is anyone available?</div>
+          <div class="msg ai">I'm sorry, that sounds stressful. I can book the first emergency slot at 7&nbsp;a.m. and alert the on-call tech now. What's your address?</div>
+          <div class="msg them">42 Maple Crescent. Yes, please book it.</div>
+          <div class="msg ai">Done. You're booked for 7&nbsp;a.m. and you'll get a text confirmation shortly.</div>
+        </div>
+        <div class="summary" id="summary"><b>Text sent to owner</b>Emergency: basement flooding, 42 Maple Cres. Booked 7:00 AM. On-call tech alerted.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="problem-title">
+    <div class="wrap">
+      <h2 id="problem-title">A missed call is usually a missed customer.</h2>
+      <p>When a caller hits voicemail, most of them don't leave a message. They call the next business on the list. TalklineAI makes sure someone always answers, whether you're on a job site, with a client, or asleep.</p>
+    </div>
+  </section>
+
+  <section id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title">Set up in an afternoon</h2>
+      <p class="intro">No new phone number, no new hardware. Your customers call the same number they always have.</p>
+      <ol class="steps">
+        <li><h3>Tell it about your business</h3><p>Your services, hours, prices and the questions customers ask most.</p></li>
+        <li><h3>Forward your calls</h3><p>Send calls to TalklineAI after hours, when you're busy, or all the time.</p></li>
+        <li><h3>Get a text after every call</h3><p>Who called, what they needed, and what was booked, right on your phone.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="features" aria-labelledby="features-title" style="padding-top:0">
+    <div class="wrap">
+      <h2 id="features-title">What it handles</h2>
+      <p class="intro">Like a front desk that never takes a day off.</p>
+      <div class="handles">
+        <div class="handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+          <div><h3>Answers every call</h3><p>Day, night, weekends and holidays, in a friendly, natural voice.</p></div>
+        </div>
+        <div class="handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <div><h3>Books appointments</h3><p>Checks your availability and puts the job straight on your calendar.</p></div>
+        </div>
+        <div class="handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <div><h3>Takes detailed messages</h3><p>Names, numbers and what the caller needs, written up clearly.</p></div>
+        </div>
+        <div class="handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></svg>
+          <div><h3>Flags urgent calls</h3><p>Emergencies get passed to you or your on-call person right away.</p></div>
+        </div>
+        <div class="handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          <div><h3>Answers common questions</h3><p>Hours, pricing, service areas, whatever you teach it.</p></div>
+        </div>
+        <div class="handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <div><h3>Sends you a summary</h3><p>A short text or email after each call, so nothing slips through.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="integrations" aria-labelledby="int-title" style="padding-top:0">
+    <div class="wrap">
+      <h2 id="int-title">Fits the way you already work</h2>
+      <p class="intro">No new software to learn. We connect TalklineAI to the tools your business already runs on, so every call lands exactly where your team expects it.</p>
+      <div class="fit">
+        <div><h3>Calendars and booking</h3><p>Books into your real availability and avoids double bookings.</p><p class="apps">Google Calendar, Outlook, Calendly, Cal.com</p></div>
+        <div><h3>CRM and customer records</h3><p>New callers become leads. Returning callers are recognised.</p><p class="apps">HubSpot, Salesforce, Pipedrive, Zoho</p></div>
+        <div><h3>Job and practice software</h3><p>Creates jobs, work orders or appointments in the system you dispatch from.</p><p class="apps">Field service, clinic and salon platforms</p></div>
+        <div><h3>Team alerts</h3><p>Urgent calls reach the right person on the channel they actually check.</p><p class="apps">Text, email, Slack, Microsoft Teams</p></div>
+        <div><h3>Payments and invoicing</h3><p>Sends deposit or payment links and keeps your books in sync.</p><p class="apps">Stripe, QuickBooks, Xero</p></div>
+        <div><h3>Spreadsheets and reports</h3><p>Every call logged where you can see it, with a weekly summary.</p><p class="apps">Google Sheets, Excel, Airtable</p></div>
+      </div>
+      <div class="after">
+        <h3>What happens after a call</h3>
+        <ul>
+          <li>The caller gets a confirmation text with their booking details</li>
+          <li>Their details are added to your CRM or customer list</li>
+          <li>The job or appointment appears in your scheduling software</li>
+          <li>You get a summary, and urgent calls ping your on-call person</li>
+          <li>Unbooked callers get an automatic follow-up so the lead isn't lost</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="who-title" style="padding-top:0">
+    <div class="wrap">
+      <h2 id="who-title">Built for businesses that live on the phone</h2>
+      <p class="intro">If a missed call means a lost job, TalklineAI is for you.</p>
+      <div class="who">
+        <span>Plumbers &amp; HVAC</span><span>Electricians</span><span>Contractors</span><span>Dental &amp; medical clinics</span><span>Salons &amp; spas</span><span>Law offices</span><span>Property managers</span><span>Auto repair</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" aria-labelledby="pricing-title" style="padding-top:0">
+    <div class="wrap">
+      <h2 id="pricing-title">One plan. Everything included.</h2>
+      <p class="intro">No per-minute meters, no overage surprises, no setup fee. We build it, tune it, and stand behind it.</p>
+      <div class="offer">
+        <div class="plan pick">
+          <h3>TalklineAI Done-For-You</h3>
+          <div class="price">$500<small> /month CAD</small></div>
+          <ul>
+            <li>Unlimited calls, answered 24/7</li>
+            <li>We set it up for you in 48 hours</li>
+            <li>Appointment booking on your calendar</li>
+            <li>Custom-connected to your existing software</li>
+            <li>Urgent calls transferred to you live</li>
+            <li>Missed-call text-back to every caller</li>
+            <li>Text summary after every call</li>
+            <li>Monthly call review and script tuning</li>
+            <li>Local Calgary support from a real person</li>
+            <li>Month-to-month, cancel any time</li>
+          </ul>
+          <a class="btn" href="#early-access">Get started</a>
+          <span class="fine" style="color:inherit">30-day money-back guarantee.</span>
+        </div>
+        <div class="compare">
+          <h3>How it stacks up</h3>
+          <dl>
+            <dt>Full-time receptionist</dt><dd>$3,500+ a month, 40 hours a week, no nights or weekends</dd>
+            <dt>DIY AI answering apps</dt><dd>Cheaper up front, but you build it yourself, pay per minute, and booking often costs extra</dd>
+            <dt>TalklineAI</dt><dd>$500 flat, built and managed for you, every hour of every day</dd>
+          </dl>
+          <p class="fine">One extra booked job a month usually covers the cost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="early-access" aria-labelledby="cta-title">
+    <div class="wrap">
+      <div>
+        <h2 id="cta-title">Start answering every call</h2>
+        <p>Tell us about your business and we'll have your line answering within 48 hours.</p>
+      </div>
+      <!-- Replace YOUR_FORM_ID with your Formspree form ID (see setup guide) -->
+      <form class="signup" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+        <label for="business">Business name</label>
+        <input id="business" name="business" type="text" autocomplete="organization" required>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <button type="submit">Book my setup</button>
+        <span class="fine">No spam. We'll only contact you about TalklineAI.</span>
+      </form>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 id="faq-title">Questions</h2>
+      <div class="faq">
+        <details><summary>Do I need a new phone number?</summary><p>No. You keep your existing number and forward calls to TalklineAI whenever you want it to answer.</p></details>
+        <details><summary>Will callers know they're talking to AI?</summary><p>TalklineAI introduces itself as your business's virtual assistant. Most callers just care that someone picked up and helped.</p></details>
+        <details><summary>What if the call is an emergency?</summary><p>You choose what counts as urgent. Those calls get passed straight to you or your on-call person.</p></details>
+        <details><summary>Can I choose when it answers?</summary><p>Yes. Use it after hours only, when you're busy, or for every call. You can change it any time.</p></details>
+        <details><summary>Does it work with my software?</summary><p>Almost certainly. We connect to hundreds of common business tools, and if your system has an API we can usually connect that too. We confirm it on your setup call before you pay.</p></details>
+        <details><summary>Why not just use a cheaper AI app?</summary><p>You can, but you&rsquo;ll be writing the scripts, connecting the calendar and fixing it when it goes wrong. We do all of that for you, and keep improving it every month.</p></details>
+        <details><summary>How much does it cost?</summary><p>$500 a month CAD, flat. Unlimited calls, setup included, no contract, and a 30-day money-back guarantee.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="yr">2026</span> TalklineAI, an AndromedaStack company. Calgary, Alberta.</span>
+    <span><a href="mailto:hello@talklineai.com">hello@talklineai.com</a></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // One orchestrated moment: the call rings, is answered, and plays out once.
+  (function () {
+    const call = document.getElementById('call');
+    const status = document.getElementById('status-text');
+    const msgs = Array.from(document.querySelectorAll('#lines .msg'));
+    const summary = document.getElementById('summary');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function answer() {
+      call.classList.remove('ringing');
+      call.classList.add('answered');
+      status.textContent = 'Answered by TalklineAI';
+    }
+    if (reduce) {
+      answer();
+      msgs.forEach(m => m.classList.add('show'));
+      summary.classList.add('show');
+      return;
+    }
+    setTimeout(() => {
+      answer();
+      msgs.forEach((m, i) => setTimeout(() => m.classList.add('show'), 400 + i * 1300));
+      setTimeout(() => {
+        summary.classList.add('show');
+        status.textContent = 'Call complete';
+      }, 400 + msgs.length * 1300 + 300);
+    }, 1800);
+  })();
+</script>
+</body>
+</html>
